@@ -1,0 +1,39 @@
+name: Deploy Hexo Blog to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # デフォルトブランチ名を指定（例: main）
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. リポジトリのクローン
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # 2. Node.jsのセットアップ
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '22'  # Hexoが動作するNode.jsのバージョン
+
+    # 3. Hexoの依存関係をインストール
+    - name: Install Hexo dependencies
+      run: |
+        npm install
+
+    # 4. Hexoでサイトをビルド
+    - name: Build Hexo site
+      run: |
+        npx hexo generate
+
+    # 5. GitHub Pagesにデプロイ
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./public  # Hexoの出力ディレクトリ
+
