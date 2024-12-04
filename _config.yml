@@ -107,5 +107,5 @@ deploy:
   repo: https://github.com/NanaFujishima/blog.git
   branch: gh-pages
   ignore_hidden:
-      public: false
+    public: false
 
